@@ -1,63 +1,30 @@
 #![allow(dead_code)]
 
-enum WebEvent {
-  PageLoad,
-  PageUnload,
-  KeyPress(char),
-  Paste(String),
-  Click { x: i64, y: i64 },
+enum Status {
+    Rich,
+    Poor,
 }
 
-fn inspect(event: WebEvent) {
-  match event {
-    WebEvent::PageLoad => println!("page loaded"),
-    WebEvent::PageUnload => println!("page unloaded"),
-    WebEvent::KeyPress(c) => println!("pressed '{}'.", c),
-    WebEvent::Paste(s) => println!("pasted \"{}\".", s),
-    WebEvent::Click { x, y } => {
-      println!("clicked at x={}, y={}.", x, y);
-    },
-  }
+enum Work {
+    Civilian,
+    Soldier,
 }
-
-#[derive(Debug)]
-enum VeryVerboseEnumOfThingsToDoWithNumbers {
-  Add,
-  Subtract,
-}
-
-impl VeryVerboseEnumOfThingsToDoWithNumbers {
-  fn run(&self, x: i32, y: i32) -> i32 {
-    match self {
-      Self::Add => x + y,
-      Self::Subtract => x - y,
-    }
-  }
-    
-}
-
-type Operations = VeryVerboseEnumOfThingsToDoWithNumbers;
-
 
 fn main() {
-    let pressed = WebEvent::KeyPress('x');
-    let pasted = WebEvent::Paste("my text".to_owned());
+    use crate::Status::{Poor, Rich};
 
-    let click = WebEvent::Click { x: 20, y: 80 };
-    let load = WebEvent::PageLoad;
-    let unload = WebEvent::PageUnload;
-    
+    use crate::Work::*;
 
-    inspect(pressed);
-    inspect(pasted);
-    inspect(click);
-    inspect(load);
-    inspect(unload);
+    let status = Poor;
+    let work = Civilian;
 
+    match status {
+        Rich => println!("The rich have lots of money!"),
+        Poor => println!("The poor have no money..."),
+    }
 
-    let x = Operations::Add;
-    println!( "3 + 5 = {}",    x.run(3, 5));
-
-    println!("{:?}", x);
-
+    match work {
+        Civilian => println!("Civilians work!"),
+        Soldier => println!("Soldiers fight!"),
+    }
 }

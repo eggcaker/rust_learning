@@ -1,61 +1,63 @@
 #![allow(dead_code)]
 
-#[derive(Debug)]
-struct Person {
-  name: String,
-  age: u8,
+enum WebEvent {
+  PageLoad,
+  PageUnload,
+  KeyPress(char),
+  Paste(String),
+  Click { x: i64, y: i64 },
 }
 
-struct Pair(i32, i32);
-
-#[derive(Debug)]
-struct Point {
-  x: f32,
-  y: f32,
-}
-
-#[derive(Debug)]
-struct Rectangle {
-  p1: Point,
-  p2: Point,
-}
-
-struct Unit;
-
-
-fn rect_area(rect: Rectangle) -> f32 {
-  let Rectangle { p1: Point { x: x1, y: y1 }, p2: Point { x: x2, y: y2 } } = rect;
-  (x1 - x2).abs() * (y1 - y2).abs()
-}
-
-fn square(point: Point, width: f32) -> Rectangle {
-  let Point { x, y } = point;
-  Rectangle {
-    p1: Point { x, y },
-    p2: Point { x: x + width, y: y + width },
+fn inspect(event: WebEvent) {
+  match event {
+    WebEvent::PageLoad => println!("page loaded"),
+    WebEvent::PageUnload => println!("page unloaded"),
+    WebEvent::KeyPress(c) => println!("pressed '{}'.", c),
+    WebEvent::Paste(s) => println!("pasted \"{}\".", s),
+    WebEvent::Click { x, y } => {
+      println!("clicked at x={}, y={}.", x, y);
+    },
   }
 }
 
+#[derive(Debug)]
+enum VeryVerboseEnumOfThingsToDoWithNumbers {
+  Add,
+  Subtract,
+}
+
+impl VeryVerboseEnumOfThingsToDoWithNumbers {
+  fn run(&self, x: i32, y: i32) -> i32 {
+    match self {
+      Self::Add => x + y,
+      Self::Subtract => x - y,
+    }
+  }
+    
+}
+
+type Operations = VeryVerboseEnumOfThingsToDoWithNumbers;
+
+
 fn main() {
-    let name = String::from("Peter");
-    let age = 27; 
-    let peter = Person { name, age };
-    println!("{:?}", peter);
+    let pressed = WebEvent::KeyPress('x');
+    let pasted = WebEvent::Paste("my text".to_owned());
+
+    let click = WebEvent::Click { x: 20, y: 80 };
+    let load = WebEvent::PageLoad;
+    let unload = WebEvent::PageUnload;
+    
+
+    inspect(pressed);
+    inspect(pasted);
+    inspect(click);
+    inspect(load);
+    inspect(unload);
 
 
-    let point: Point = Point { x: 10.3, y: 0.4 };
-    println!("point coordinates: ({}, {})", point.x, point.y);
+    let x = Operations::Add;
+    println!( "3 + 5 = {}",    x.run(3, 5));
 
-  let bottom_right = Point { x: 5.2, ..point };
+    println!("{:?}", x);
 
-    println!("{:?}", bottom_right);
-
-    let Point { x: left_edge, y: top_edge } = point;
-
-    let _rectangle = Rectangle {
-      p1: Point { x: left_edge, y: top_edge },
-      p2: bottom_right,
-    };
-
-    println!("{:?}", _rectangle);
 }

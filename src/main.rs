@@ -1,26 +1,18 @@
 #![allow(dead_code)]
 
 fn main() {
-    let long_lived_binding = 1;
+    let a_binding;
 
     {
-        let short_lived_binding = 2;
-
-        println!("inner short: {}", short_lived_binding);
-
-        let long_lived_binding = 5_f32;
-        println!("inner long: {}", long_lived_binding);
-
-        let shadowed_bindind = "abc";
-
-        println!("inner shadowed: {}", shadowed_bindind);
+        let x = 2;
+        a_binding = x * x;
     }
 
-    // println!("outer short: {}", short_lived_binding);
+    println!("a binding: {}", a_binding);
 
-    let shadowed_bindind = 1;
+    let another_binding;
 
-    println!("outer shadowed: {}", shadowed_bindind);
+    another_binding = 1;
 
-    println!("outer long: {}", long_lived_binding);
+    println!("another binding: {}", another_binding);
 }

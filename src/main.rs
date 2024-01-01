@@ -1,15 +1,26 @@
 #![allow(dead_code)]
 
 fn main() {
-    let _immutable_binding = 1;
-    let mut mutable_binding = 1;
+    let long_lived_binding = 1;
 
-    println!("Before mutation: {}", mutable_binding);
+    {
+        let short_lived_binding = 2;
 
-    mutable_binding += 1;
+        println!("inner short: {}", short_lived_binding);
 
-    println!("After mutation: {}", mutable_binding);
+        let long_lived_binding = 5_f32;
+        println!("inner long: {}", long_lived_binding);
 
-    // Error! The value of immutable variables can't be changed
-    // _immutable_binding += 1;
+        let shadowed_bindind = "abc";
+
+        println!("inner shadowed: {}", shadowed_bindind);
+    }
+
+    // println!("outer short: {}", short_lived_binding);
+
+    let shadowed_bindind = 1;
+
+    println!("outer shadowed: {}", shadowed_bindind);
+
+    println!("outer long: {}", long_lived_binding);
 }

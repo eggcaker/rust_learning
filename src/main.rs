@@ -1,24 +1,20 @@
 #![allow(dead_code)]
+#![allow(unused_labels, unreachable_code)]
 
 fn main() {
-    let mut count = 0u32;
+  'outer: loop {
+    println!("Entered the outer loop");
 
-    println!("Let's count until infinity!");
+    'inner: loop {
+      println!("Entered the inner loop");
 
-    loop {
-        count += 1;
-        if count == 3 {
-            println!("three");
+      // This would break only the inner loop
+      // break;
 
-            continue;
-        }
-
-        println!("{}", count);
-
-        if count == 5 {
-            println!("OK, that's enough");
-
-            break;
-        }
+      // This breaks the outer loop
+      break 'outer;
     }
+
+    println!("This point will never be reached");
+  }   
 }

@@ -2,38 +2,23 @@
 #![allow(unused_labels, unreachable_code)]
 
 fn main() {
-    for n in 0..101 {
-        if n % 15 == 0 {
-            println!("fizzbuzz");
-        } else if n % 3 == 0 {
-            println!("fizz");
-        } else if n % 5 == 0 {
-            println!("buzz");
-        } else {
-            println!("{}", n);
-        }
+    let number = 13;
+
+    println!("Tell me about {}", number);
+
+    match number {
+        1 => println!("One!"),
+        2 | 3 | 5 | 7 | 11 => println!("This is a prime"),
+        13..=19 => println!("A teen"),
+        _ => println!("Ain't special"),
     }
 
-    for n in 1..=100 {
-        if n % 15 == 0 {
-            println!("fizzbuzz");
-        } else if n % 3 == 0 {
-            println!("fizz");
-        } else if n % 5 == 0 {
-            println!("buzz");
-        } else {
-            println!("{}", n);
-        }
-    }
+    let boolean = true;
 
-    let names = vec!["Bob", "Frank", "Ferris"];
+    let binary = match boolean {
+        false => 0,
+        _ => 1,
+    };
 
-    for name in names.iter() {
-        match name {
-            &"Ferris" => println!("There is a rustacean among us!"),
-            _ => println!("Hello {}", name),
-        }
-    }
-
-
+    println!("{} -> {}", boolean, binary);
 }

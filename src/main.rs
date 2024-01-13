@@ -1,27 +1,49 @@
 #![allow(dead_code)]
 #![allow(unused_labels, unreachable_code)]
 
-fn print_s(s: String) {
-    println!("{}", s);
-}
-
 fn main() {
-    let outer_var = 42;
+    use std::mem;
+    let color = String::from("green");
 
-    let closure_annotated = |i: i32| -> i32 { i + outer_var };
-    let closure_inferred = |i: i32| i + outer_var;
+    let print = || println!("`color`: {}", color);
+    print();
 
-    println!("{}", closure_annotated(1));
-    println!("{}", closure_inferred(1));
+    let _reborrow = &color;
+    print();
 
-    let one = || 1;
-    println!("{}", one());
+    println!("`color`: {}", _reborrow);
 
-    let two = |s: &str| s.len();
+    // A move or reborrow is allowed after the final use of `color`
+    let _color_moved = color;
 
-    let s = String::from("Hello");
+    let mut count = 0;
+    let mut inc = || {
+        count += 1;
+        println!("`count`: {}", count);
+    };
 
-    println!("{}", two(&s));
-    println!("{}", s);
-    println!("{}", &s);
+    inc();
+    inc();
+
+    // let _reborrow = &count;
+    let _count_reborrowed = &mut count;
+
+    let movable = Box::new(3);
+
+    let consume = || {
+        println!("`movable`: {:?}", movable);
+        mem::drop(movable);
+    };
+
+    consume();
+
+    // println!("`movable`: {:?}", movable);
+
+    let haystack = vec![1, 2, 3];
+    let contains = move |needle| haystack.contains(needle);
+
+    println!("{}", contains(&1));
+    println!("{}", contains(&4));
+
+    // println!("There're {} elements in vec", haystack.len());
 }

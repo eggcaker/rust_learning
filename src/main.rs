@@ -1,20 +1,27 @@
 #![allow(dead_code)]
 #![allow(unused_labels, unreachable_code)]
 
+enum Temperture {
+    Celsius(i32),
+    Fahrenheit(i32),
+}
+
 fn main() {
-    struct Foo {
-        x: (u32, u32),
-        y: u32,
+    let temperature = Temperture::Celsius(10);
+
+    match temperature {
+        Temperture::Celsius(t) if t > 30 => println!("Hot"),
+        Temperture::Celsius(t) => println!("Cold on {:}", t),
+
+        Temperture::Fahrenheit(t) if t > 86 => println!("Hot"),
+        Temperture::Fahrenheit(t) => println!("Cold on {:}", t),
     }
 
-    let foo = Foo { x: (1, 2), y: 3 };
-    match foo {
-        Foo { x: (1, b), y } => println!("First of x is 1, b = {},  y = {} ", b, y),
-        Foo { y: 2, x: i } => println!("y is 2, i = {:?}", i),
-        Foo { y, .. } => println!("y = {}, we don't care about x", y),
-    }
+    let number: u8 = 4;
 
-    let faa = Foo { x: (1, 2), y: 3 };
-    let Foo { x: x0, y: y0 } = faa;
-    println!("x0 = {:?}, y0 = {}", x0, y0);
+    match number {
+        i if i == 0 => println!("Zero"),
+        i if i > 0 => println!("Greater than zero"),
+        _ => println!("Unhandled case"),
+    }
 }

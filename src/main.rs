@@ -2,32 +2,25 @@
 #![allow(unused_labels, unreachable_code)]
 
 fn main() {
-    let mut optional = Some(0);
+    fizzbuzz_to(100);
+}
 
-    // loop {
-    //     match optional {
-    //         Some(i) => {
-    //             if i > 9 {
-    //                 println!("Greater than 9, quit!");
-    //                 optional = None;
-    //             } else {
-    //                 println!("`i` is `{:?}`. Try again.", i);
-    //                 optional = Some(i + 1);
-    //             }
-    //         }
-    //         _ => {
-    //             break;
-    //         }
-    //     }
-    // }
+fn is_divisible_by(lhs: u32, rhs: u32) -> bool {
+    if rhs == 0 {
+        return false;
+    }
 
-    while let Some(i) = optional {
-        if i > 9 {
-            println!("Greater than 9, quit!");
-            optional = None;
-        } else {
-            println!("`i` is `{:?}`. Try again.", i);
-            optional = Some(i + 1);
-        }
+    lhs % rhs == 0
+}
+
+fn fizzbuzz_to(n: u32) {
+    if is_divisible_by(n, 15) {
+        println!("fizzbuzz");
+    } else if is_divisible_by(n, 3) {
+        println!("fizz");
+    } else if is_divisible_by(n, 5) {
+        println!("buzz");
+    } else {
+        println!("{}", n);
     }
 }

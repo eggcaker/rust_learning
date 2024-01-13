@@ -1,36 +1,74 @@
 #![allow(dead_code)]
 #![allow(unused_labels, unreachable_code)]
 
-fn age() -> u32 {
-    15
-}
-
-fn some_nubmer() -> Option<u32> {
-    Some(42)
+enum Foo {
+    Bar,
+    Baz,
+    Qux(u32),
 }
 
 fn main() {
-    println!("Tell me what type of person you are");
+    let a = Foo::Bar;
+    let b = Foo::Baz;
+    let c = Foo::Qux(100);
+    let d: Foo = Foo::Qux(101);
+    let e = Foo::Bar;
 
-    match age() {
-        0 => println!("I'm not born yet I guess"),
-        // Could `match` 1 ..= 12 directly but then what age
-        // would the child be? Instead, bind to `n` for the
-        // sequence of 1 ..= 12. Now the age can be reported.
-        n @ 1..=12 => println!("I'm a child of age {:?}", n),
-        n @ 13..=19 => println!("I'm a teen of age {:?}", n),
-        // Nothing bound. Return the result.
-        n => println!("I'm an old person of age {:?}", n),
+    if let Foo::Bar = a {
+        println!("a is foobar");
     }
 
+    if let Foo::Bar = b {
+        println!("b is foobar");
+    }
 
-    match some_nubmer() {
-        // Got `Some` variant, match if its value, bound to `n`,
-        // is equal to 42.
-        Some(n @ 42) => println!("The Answer: {}!", n),
-        // Match any other number.
-        Some(n) => println!("Not interesting... {}", n),
-        // Match anything else (`None` variant).
-        _ => (),
+    if let Foo::Qux(value) = c {
+        println!("c is {}", value);
+    }
+
+    if let Foo::Qux(value @ 100) = d {
+        println!("c is one hundred {:}", value);
+    } else {
+        println!("c is not one hundred");
+    }
+
+    let optional = Some(7);
+    let letter: Option<i32> = None;
+    let emotion: Option<i32> = Some(3);
+
+    if let Some(i) = optional {
+        println!("Matched {:?}", i);
+    }
+
+    if let Some(i) = letter {
+        println!("Matched {:?}", i);
+    } else {
+        println!("Didn't match a number. Let's go with a letter!");
+    }
+
+    match emotion {
+        Some(i) => {
+            println!("Matched {:?}", i);
+        }
+        None => {
+            println!("Didn't match a number. Let's go with a letter!");
+        }
+    }
+
+    if let Some(i) = emotion {
+        println!("Matched {:?}", i);
+    } else {
+        println!("Didn't match a number. Let's go with a letter!");
+    }
+
+    match optional {
+        Some(i) => {
+            println!("This is a really long string and `{:?}`", i);
+        }
+        _ => {}
+    }
+
+    if let Foo::Bar = e {
+        println!("f2 is foobar");
     }
 }

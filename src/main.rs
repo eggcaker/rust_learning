@@ -1,27 +1,36 @@
 #![allow(dead_code)]
 #![allow(unused_labels, unreachable_code)]
 
-enum Temperture {
-    Celsius(i32),
-    Fahrenheit(i32),
+fn age() -> u32 {
+    15
+}
+
+fn some_nubmer() -> Option<u32> {
+    Some(42)
 }
 
 fn main() {
-    let temperature = Temperture::Celsius(10);
+    println!("Tell me what type of person you are");
 
-    match temperature {
-        Temperture::Celsius(t) if t > 30 => println!("Hot"),
-        Temperture::Celsius(t) => println!("Cold on {:}", t),
-
-        Temperture::Fahrenheit(t) if t > 86 => println!("Hot"),
-        Temperture::Fahrenheit(t) => println!("Cold on {:}", t),
+    match age() {
+        0 => println!("I'm not born yet I guess"),
+        // Could `match` 1 ..= 12 directly but then what age
+        // would the child be? Instead, bind to `n` for the
+        // sequence of 1 ..= 12. Now the age can be reported.
+        n @ 1..=12 => println!("I'm a child of age {:?}", n),
+        n @ 13..=19 => println!("I'm a teen of age {:?}", n),
+        // Nothing bound. Return the result.
+        n => println!("I'm an old person of age {:?}", n),
     }
 
-    let number: u8 = 4;
 
-    match number {
-        i if i == 0 => println!("Zero"),
-        i if i > 0 => println!("Greater than zero"),
-        _ => println!("Unhandled case"),
+    match some_nubmer() {
+        // Got `Some` variant, match if its value, bound to `n`,
+        // is equal to 42.
+        Some(n @ 42) => println!("The Answer: {}!", n),
+        // Match any other number.
+        Some(n) => println!("Not interesting... {}", n),
+        // Match anything else (`None` variant).
+        _ => (),
     }
 }

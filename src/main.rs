@@ -1,11 +1,9 @@
 #![allow(dead_code)]
 #![allow(unused_labels, unreachable_code)]
 
-mod deeply {
-    pub mod nested {
-        pub fn function() {
-            println!("called `deeply::nested::function()`");
-        }
+mod cool {
+    pub fn function() {
+        println!("called `cool::function()`");
     }
 }
 
@@ -13,16 +11,30 @@ fn function() {
     println!("called `function()`");
 }
 
-use deeply::nested::function as other_function;
-
-fn main() {
-    other_function();
-    println!("Entering block");
-    {
-        use deeply::nested::function;
-        function();
-        println!("Leaving block");
+mod my {
+    pub fn function() {
+        println!("called `my::function()`");
     }
 
-    function();
+    mod cool {
+        pub fn function() {
+            println!("called `my::cool::function()`");
+        }
+    }
+
+    pub fn indirect_call() {
+        print!("called `my::indirect_call()`, that\n> ");
+        self::function();
+        function();
+        self::cool::function();
+        super::function();
+        {
+            use crate::cool::function as root_function;
+            root_function();
+        }
+    }
+}
+
+fn main() {
+    my::indirect_call();
 }

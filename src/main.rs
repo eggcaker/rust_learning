@@ -1,28 +1,30 @@
 #![allow(dead_code)]
 #![allow(unused_labels, unreachable_code)]
 
-fn create_fn() -> impl Fn() {
-    let text = "Fn".to_owned();
-    move || println!("This is a: {}", text)
-}
-
-fn create_fnmut() -> impl FnMut() {
-    let text = "FnMut".to_owned();
-    move || println!("This is a: {}", text)
-}
-
-fn create_fnonce() -> impl FnOnce() {
-    let text = "FnOnce".to_owned();
-    move || println!("This is a: {}", text)
-}
+use std::{iter::Iterator, vec};
 
 fn main() {
-    let fn_plain = create_fn();
-    let mut fn_mut = create_fnmut();
-    let fn_once = create_fnonce();
+    let vec1 = vec![1, 2, 3];
+    let vec2 = vec![4, 5, 6];
 
-    fn_plain();
-    fn_plain();
-    fn_mut();
-    fn_once();
+    println!("2 in vec1: {}", vec1.iter().any(|&x| x == 2));
+    println!("2 in vec2: {}", vec2.into_iter().any(|x| x == 2));
+
+    println!("vec1 len: {}", vec1.len());
+    println!("First element of vec1 is: {}", vec1[0]);
+
+    // println!("First element of vec2 is: {}", vec2[0]);
+    // println!("First element of vec2 is: {}", vec2.len());
+
+    let array1 = [1, 2, 3];
+
+    println!("2 in array1: {}", array1.iter().any(|&x| x == 2));
+
+    let array2: [i32; 3] = [4, 5, 6];
+
+    println!("2 in array2: {}", array2.into_iter().any(|x| x == 2));
+    println!("First element of array2 is: {}", array2[0]);
+
+    println!("array1 len: {}", array1.len());
+    println!("First element of array1 is: {}", array1[0]);
 }

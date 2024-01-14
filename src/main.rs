@@ -1,31 +1,28 @@
 #![allow(dead_code)]
 #![allow(unused_labels, unreachable_code)]
 
-mod my {
-    pub struct OpenBox<T> {
-        pub contents: T,
-    }
-
-    #[derive(Debug)]
-    pub struct CloseBox<T> {
-        contents: T,
-    }
-
-    impl<T> CloseBox<T> {
-        pub fn new(contents: T) -> CloseBox<T> {
-            CloseBox { contents: contents }
+mod deeply {
+    pub mod nested {
+        pub fn function() {
+            println!("called `deeply::nested::function()`");
         }
     }
 }
 
+fn function() {
+    println!("called `function()`");
+}
+
+use deeply::nested::function as other_function;
+
 fn main() {
-    let open_box = my::OpenBox {
-        contents: "public information",
-    };
+    other_function();
+    println!("Entering block");
+    {
+        use deeply::nested::function;
+        function();
+        println!("Leaving block");
+    }
 
-    println!("The open box contains: {}", open_box.contents);
-
-    let _closed_box = my::CloseBox::new("classified information");
-
-    println!("The closed box contains: {:?}", _closed_box);
+    function();
 }

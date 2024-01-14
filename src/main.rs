@@ -1,17 +1,17 @@
 #![allow(dead_code)]
 #![allow(unused_labels, unreachable_code)]
 
-fn apply<F>(f: F)
-where
-    F: Fn(),
-{
+fn call_me<F: Fn()>(f: F) {
     f();
 }
 
+fn function() {
+    println!("I'm a function!");
+}
+
 fn main() {
-    let x = 7;
+    let closure = || println!("I'm a closure!");
+    call_me(closure);
 
-    let print = || println!("{}", x);
-
-    apply(print);
+    call_me(function);
 }

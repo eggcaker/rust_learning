@@ -1,49 +1,37 @@
 #![allow(dead_code)]
 #![allow(unused_labels, unreachable_code)]
 
+fn apply<F>(f: F)
+where
+    F: FnOnce(),
+{
+    f();
+}
+
+fn apply_to_3<F>(f: F) -> i32
+where
+    F: Fn(i32) -> i32,
+{
+    f(3)
+}
+
 fn main() {
     use std::mem;
-    let color = String::from("green");
 
-    let print = || println!("`color`: {}", color);
-    print();
+    let greentig = "green";
+    let mut farewell = "goodbye".to_owned();
 
-    let _reborrow = &color;
-    print();
+    let diary = || {
+        println!("I said {}.", greentig);
+        farewell.push_str("!!!");
+        println!("Then I screamed {}.", farewell);
+        println!("Now I can sleep. zzzzz");
 
-    println!("`color`: {}", _reborrow);
-
-    // A move or reborrow is allowed after the final use of `color`
-    let _color_moved = color;
-
-    let mut count = 0;
-    let mut inc = || {
-        count += 1;
-        println!("`count`: {}", count);
+        mem::drop(farewell);
     };
 
-    inc();
-    inc();
+    apply(diary);
 
-    // let _reborrow = &count;
-    let _count_reborrowed = &mut count;
-
-    let movable = Box::new(3);
-
-    let consume = || {
-        println!("`movable`: {:?}", movable);
-        mem::drop(movable);
-    };
-
-    consume();
-
-    // println!("`movable`: {:?}", movable);
-
-    let haystack = vec![1, 2, 3];
-    let contains = move |needle| haystack.contains(needle);
-
-    println!("{}", contains(&1));
-    println!("{}", contains(&4));
-
-    // println!("There're {} elements in vec", haystack.len());
+    let double = |x| 2 * x;
+    println!("3 doubled: {}", apply_to_3(double));
 }

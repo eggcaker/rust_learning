@@ -1,39 +1,34 @@
 #![allow(dead_code)]
 #![allow(unused_labels, unreachable_code)]
 
-use std::{iter::Iterator, vec};
+fn is_odd(n: u32) -> bool {
+    n % 2 == 1
+}
 
 fn main() {
-    let vec1 = vec![1, 2, 3];
+    println!("Find the sum of all the squared odd numbers under 1000");
 
-    let vec2 = vec![4, 5, 6];
+    let uppper = 1000;
 
-    let mut iter = vec1.iter();
-    let mut into_iter = vec2.into_iter();
+    let mut acc = 0;
 
-    println!("Find 2 in vec1: {:?}", iter.find(|&&x| x == 2));
-    println!("Find 2 in vec2: {:?}", into_iter.find(|&x| x == 2));
+    for n in 0.. {
+        let n_squared = n * n;
 
-    let array1 = [1, 2, 3];
-    let array2 = [4, 5, 6];
+        if n_squared >= uppper {
+            break;
+        } else if is_odd(n_squared) {
+            acc += n_squared;
+        }
+    }
 
-    println!("Find 2 in array1: {:?}", array1.iter().find(|&&x| x == 2));
-    println!(
-        "Find 2 in array2: {:?}",
-        array2.into_iter().find(|&x| x == 2)
-    );
+    println!("imperative style: {}", acc);
 
-    let vec = vec![1, 9, 3, 3, 13, 2];
+    let sum_of_squared_odd_numbers: u32 = (0..)
+        .map(|n| n * n)
+        .take_while(|&n_squared| n_squared < uppper)
+        .filter(|&n_squared| is_odd(n_squared))
+        .fold(0, |acc, n_squared| acc + n_squared);
 
-    let index_of_first_even_number = vec.iter().position(|x| x % 2 == 0);
-    println!(
-        "First even number is at index {:?}",
-        index_of_first_even_number
-    );
-
-    let index_of_first_negative_number = vec.into_iter().position(|x| x < 0);
-    println!(
-        "First negative number is at index {:?}",
-        index_of_first_negative_number
-    );
+    println!("functional style: {}", sum_of_squared_odd_numbers);
 }

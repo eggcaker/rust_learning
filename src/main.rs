@@ -8,8 +8,10 @@ fn function() {
 }
 
 fn main() {
-    my::function();
-    function();
-    my::indirect_call();
-    my::nested::function();
+    rary::public_function();
+
+    // Error! `private_function` is private
+    //rary::private_function();
+
+    rary::indirect_access();
 }

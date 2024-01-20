@@ -3,5 +3,13 @@
 version = 3
 
 [[package]]
+name = "bar"
+version = "0.1.0"
+
+[[package]]
+name = "foo"
+version = "0.1.0"
+
+[[package]]
 name = "rust_learning"
 version = "0.1.0"

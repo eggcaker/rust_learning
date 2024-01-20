@@ -8,10 +8,12 @@ fn function() {
 }
 
 fn main() {
-    rary::public_function();
+    // rary::public_function();
 
     // Error! `private_function` is private
     //rary::private_function();
 
-    rary::indirect_access();
+    // rary::indirect_access();
+
+    println!("main function called")
 }

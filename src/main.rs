@@ -8,6 +8,7 @@ fn function() {
 }
 
 fn main() {
+
     // rary::public_function();
 
     // Error! `private_function` is private
